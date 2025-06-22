@@ -39,4 +39,12 @@ public class MessageService {
         }
         
     }
+
+    public Integer updateMessageById(int id, String messageText){
+        if(messageRepository.existsById(id)){
+            Message message = messageRepository.getById(id);
+            message.setMessageText(messageText);
+            messageRepository.
+        }
+    }
 }

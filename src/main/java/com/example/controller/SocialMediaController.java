@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,6 +58,11 @@ public class SocialMediaController {
     public ResponseEntity<Integer> deleteMessageById(@PathVariable int messageId){
         Integer rowsDeleted = messageService.deleteMessageById(messageId);
         return ResponseEntity.ok(rowsDeleted);
+    }
+
+    @PatchMapping("messages/{messageId}")
+    public ResponseEntity<Integer> updateMessageById(@PathVariable int messageId, @RequestBody String messageText){
+        Integer rowsUpdated = 
     }
 
     @PostMapping("register")
