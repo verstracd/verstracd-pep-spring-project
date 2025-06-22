@@ -61,8 +61,9 @@ public class SocialMediaController {
     }
 
     @PatchMapping("messages/{messageId}")
-    public ResponseEntity<Integer> updateMessageById(@PathVariable int messageId, @RequestBody String messageText){
-        Integer rowsUpdated = messageService.updateMessageById(messageId, messageText);
+    public ResponseEntity<Integer> updateMessageById(@PathVariable int messageId,
+        @RequestBody Message message){
+        Integer rowsUpdated = messageService.updateMessageById(messageId, message.getMessageText());
         return ResponseEntity.ok(rowsUpdated);
     }
 

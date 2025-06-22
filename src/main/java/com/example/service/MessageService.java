@@ -8,20 +8,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.Message;
+import com.example.exception.BadRequestException;
+import com.example.repository.AccountRepository;
 import com.example.repository.MessageRepository;
 
 @Service
 public class MessageService {
 
     private MessageRepository messageRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    public MessageService(MessageRepository messageRepository){
+    public MessageService(MessageRepository messageRepository, AccountRepository accountRepository){
         this.messageRepository = messageRepository;
+        this.accountRepository = accountRepository;
     }
 
-    public Message createNewMessage(Message newMessage){
-        return messageRepository.save(newMessage);
+    public Message createNewMessage(Message messageText){
+        if(messageText.getMessageText() == null || 
+        messageText.getMessageText().isEmpty() ||
+        messageText.getMessageText().length() > 255){
+            throw new BadRequestException("Message text is blank or over 255 characters.");
+        }
+        if(!accountRepository.existsById(messageText.getPostedBy())){
+            throw new BadRequestException("User does not exist.");
+        }
+        return messageRepository.save(messageText);
     }
 
     public List<Message> getAllMessages(){
@@ -44,12 +56,17 @@ public class MessageService {
 
     @Transactional
     public Integer updateMessageById(int id, String messageText){
+        if(messageText == null || 
+        messageText.isBlank() ||
+        messageText.length() > 255){
+            throw new BadRequestException("Message text is blank or over 255 characters.");
+        }
         if(messageRepository.existsById(id)){
             Message message = messageRepository.getById(id);
             message.setMessageText(messageText);
             return 1;
         }else{
-            return null;
+            throw new BadRequestException("Message ID does not exist.");
         }
     }
 }
