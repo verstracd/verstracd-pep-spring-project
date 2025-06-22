@@ -2,6 +2,8 @@ package com.example.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,11 +42,14 @@ public class MessageService {
         
     }
 
+    @Transactional
     public Integer updateMessageById(int id, String messageText){
         if(messageRepository.existsById(id)){
             Message message = messageRepository.getById(id);
             message.setMessageText(messageText);
-            messageRepository.
+            return 1;
+        }else{
+            return null;
         }
     }
 }
