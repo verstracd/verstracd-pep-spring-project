@@ -24,16 +24,16 @@ public class MessageService {
         this.accountRepository = accountRepository;
     }
 
-    public Message createNewMessage(Message messageText){
-        if(messageText.getMessageText() == null || 
-        messageText.getMessageText().isEmpty() ||
-        messageText.getMessageText().length() > 255){
+    public Message createNewMessage(Message message){
+        if(message.getMessageText() == null || 
+        message.getMessageText().isEmpty() ||
+        message.getMessageText().length() > 255){
             throw new BadRequestException("Message text is blank or over 255 characters.");
         }
-        if(!accountRepository.existsById(messageText.getPostedBy())){
-            throw new BadRequestException("User does not exist: " + messageText.getPostedBy());
+        if(!accountRepository.existsById(message.getPostedBy())){
+            throw new BadRequestException("User does not exist: " + message.getPostedBy());
         }
-        return messageRepository.save(messageText);
+        return messageRepository.save(message);
     }
 
     public List<Message> getAllMessages(){
