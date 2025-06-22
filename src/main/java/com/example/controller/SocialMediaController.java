@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.Account;
+import com.example.entity.Message;
 import com.example.service.AccountService;
 import com.example.service.MessageService;
 
@@ -29,10 +30,22 @@ public class SocialMediaController {
         this.messageService = messageService;
     }
 
+    @PostMapping("messages")
+    public ResponseEntity<Message> createNewMessage(@RequestBody Message message){
+        Message newMessage = messageService.createNewMessage(message);
+        return ResponseEntity.ok(newMessage);
+    }
+
     @PostMapping("register")
     public ResponseEntity<Account> register(@RequestBody Account account){
         Account newAccount = accountService.register(account);
         return ResponseEntity.ok(newAccount);
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<Account> login(@RequestBody Account account){
+        Account loginAccount = accountService.login(account);
+        return ResponseEntity.ok(loginAccount);
     }
 
 }
