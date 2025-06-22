@@ -25,4 +25,18 @@ public class MessageService {
     public List<Message> getAllMessages(){
         return messageRepository.findAll();
     }
+
+    public Message getMessageById(int id){
+        return messageRepository.findById(id).orElse(null);
+    }
+
+    public Integer deleteMessageById(int id){
+        if(messageRepository.existsById(id)){
+            messageRepository.deleteById(id);
+            return 1;
+        }else{
+            return null;
+        }
+        
+    }
 }

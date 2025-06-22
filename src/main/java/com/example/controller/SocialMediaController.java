@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,6 +45,18 @@ public class SocialMediaController {
     public ResponseEntity<List<Message>> getAllMessages(){
         List<Message> allMessages = messageService.getAllMessages();
         return ResponseEntity.ok(allMessages);
+    }
+
+    @GetMapping("messages/{messageId}")
+    public ResponseEntity<Message> getMessageById(@PathVariable int messageId){
+        Message message = messageService.getMessageById(messageId);
+        return ResponseEntity.ok(message);
+    }
+
+    @DeleteMapping("messages/{messageId}")
+    public ResponseEntity<Integer> deleteMessageById(@PathVariable int messageId){
+        Integer rowsDeleted = messageService.deleteMessageById(messageId);
+        return ResponseEntity.ok(rowsDeleted);
     }
 
     @PostMapping("register")
