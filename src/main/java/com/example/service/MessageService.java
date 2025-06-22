@@ -31,7 +31,7 @@ public class MessageService {
             throw new BadRequestException("Message text is blank or over 255 characters.");
         }
         if(!accountRepository.existsById(messageText.getPostedBy())){
-            throw new BadRequestException("User does not exist.");
+            throw new BadRequestException("User does not exist: " + messageText.getPostedBy());
         }
         return messageRepository.save(messageText);
     }
@@ -66,7 +66,11 @@ public class MessageService {
             message.setMessageText(messageText);
             return 1;
         }else{
-            throw new BadRequestException("Message ID does not exist.");
+            throw new BadRequestException("Message ID does not exist: " + id);
         }
+    }
+
+    public List<Message> getMessagesByAccountId(int postedBy){
+        return messageRepository.findByPostedBy(postedBy);
     }
 }

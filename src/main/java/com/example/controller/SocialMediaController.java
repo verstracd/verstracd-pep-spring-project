@@ -54,6 +54,12 @@ public class SocialMediaController {
         return ResponseEntity.ok(message);
     }
 
+    @GetMapping("accounts/{accountId}/messages")
+    public ResponseEntity<List<Message>> getAllMessagesByAccountId(@PathVariable int accountId){
+        List<Message> accountMessages = messageService.getMessagesByAccountId(accountId);
+        return ResponseEntity.ok(accountMessages);
+    }
+
     @DeleteMapping("messages/{messageId}")
     public ResponseEntity<Integer> deleteMessageById(@PathVariable int messageId){
         Integer rowsDeleted = messageService.deleteMessageById(messageId);
